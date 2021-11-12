@@ -1,4 +1,4 @@
-// Information to reach API
+// information to reach API
 const apiKey = '454e5fd5f0bb4628be29733c0e1fbf62';
 const url = 'https://api.rebrandly.com/v1/links';
 
@@ -8,21 +8,27 @@ const shortenButton = document.querySelector('#shorten');
 const responseField = document.querySelector('#responseField');
 
 // AJAX functions
-const shortenUrl = () => {
+const shortenUrl = async () => {
 	const urlToShorten = inputField.value;
 	const data = JSON.stringify({ destination: urlToShorten });
-	const xhr = new XMLHttpRequest();
-	xhr.responseType = 'json';
-	xhr.onreadystatechange = () => {
-		if (xhr.readyState === XMLHttpRequest.DONE) {
-			renderResponse(xhr.response);
+	try {
+		const response = await fetch(url, {
+			method: 'POST',
+			body: data,
+			headers: {
+				'Content-type': 'application/json',
+				apikey: apiKey,
+			},
+		});
+		if (response.ok) {
+			const jsonResponse = await response.json();
+			renderResponse(jsonResponse);
 		}
-	};
-	xhr.open('POST', url);
-	xhr.setRequestHeader('Content-type', 'application/json');
-	xhr.setRequestHeader('apikey', apiKey);
-	xhr.send(data);
+	} catch (error) {
+		console.log(error);
+	}
 };
+// Code goes here
 
 // Clear page and call AJAX functions
 const displayShortUrl = event => {
