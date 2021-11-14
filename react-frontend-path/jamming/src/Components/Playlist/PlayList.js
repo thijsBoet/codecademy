@@ -7,7 +7,11 @@ export default class PlayList extends Component {
 		return (
 			<div className='Playlist'>
 				<input value='New Playlist' />
-				{/* <!-- Add a TrackList component --> */}
+				<TrackList
+					tracks={this.props.playlistTracks}
+					onRemove={this.props.onRemove}
+					isRemoval={true}
+				/>
 				<button className='Playlist-save'>SAVE TO SPOTIFY</button>
 			</div>
 		);
